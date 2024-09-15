@@ -1,0 +1,21 @@
+# Use a base image with Node.js
+FROM node:16
+
+# Install Truffle and Ganache
+RUN npm install -g truffle
+RUN npm install -g ganache-cli@latest
+
+
+# Set working directory inside the container
+WORKDIR /usr/src/app
+
+# Copy the project files from the host to the container
+COPY . .
+
+# Expose the port Ganache will run on
+EXPOSE 8546
+
+# Start both Ganache and Truffle in detached mode
+CMD /bin/sh -c "ganache-cli -p 8546 -h 0.0.0.0 && tail -f /dev/null"
+
+
